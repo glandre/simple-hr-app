@@ -9,6 +9,7 @@ The project will be divided into two main applications: The Back-end RESTful API
 ### Clean Architecture
 
 The back-end code will be structured by following the [Clean Code Architecture (Robert C. Martin, 2012)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+**Notice:** Check if Laravel coding conventions may impact this structure.
 
 Link this image here: https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg
 
