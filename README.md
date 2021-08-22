@@ -41,9 +41,80 @@ MINOR version when you add functionality in a backwards compatible manner, and
 PATCH version when you make backwards compatible bug fixes.
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
-## Project Setup
+## Server Setup (Local and Staging)
+
+The following steps were executed in the following:
+
+- **Local Development Environment**: Linux machine with **Pop!\_OS 21.04** installed;
+- **Staging Environment**: Linux machine with **Ubuntu 20.04.3 LTS** installed.
+
+### MySQL
+
+- Install MySQL:
+
+```
+sudo apt install mysql-server
+sudo mysql_secure_installation
+```
+
+- Access MySQL as the root user. For example:
+
+```
+sudo su
+mysql
+```
+
+- In the MySQL console, setup the application database and database user:
+
+```
+CREATE DATABASE simple_hr_app;
+CREATE USER 'simple_hr_app_user'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+GRANT ALL ON simple_hr_app.* TO 'simple_hr_app_user'@'%';
+exit
+```
+
+The command above creates database called `simple_hr_app` and a user called `simple_hr_app_user` with password `password` that can full control over the database.
+
+- MySQL IDE (MySQL Workbench) or other MySQL IDE of your choice.
+
+https://dev.mysql.com/downloads/workbench/
+
+- Open your MySQL IDE and connect to the Database
+
+### PHP
+
+- Install PHP >= 7.3 and other Required PHP Packages
+
+```
+sudo apt install unzip php-cli php-fpm php-mbstring php-xml php-bcmath
+```
+
+### Composer
+
+- Install the latest version of Composer. The steps bellow are from getcomposer.org:
+
+```
+# Download Composer
+cd ~
+curl -sS https://getcomposer.org/installer -o composer-setup.php
+
+# Verify if the installer Hash matches
+HASH=`curl -sS https://composer.github.io/installer.sig`
+
+# the command below should return the message: "Installer verified"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+
+# Install Composer globally
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+# Test the installation:
+composer
+```
 
 ## REFERENCES
 
 - Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
 - Semantic Versioning: https://semver.org/
+- How to install composer on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
+- How to install MySQL on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
+- MySQL Workbench: https://dev.mysql.com/downloads/workbench/
