@@ -10,9 +10,13 @@ Simple HR App is a new project, and accordingly, it needs a back-end. This ADR d
 
 The initial desires of the engineer were the following:
 
-- Use Laravel framework: because it's a modern framework and due to previous experience of the engineer with it;
+- Use Laravel (or Lumen) framework: because it's a modern framework and due to previous experience of the engineer with it;
 - Implement the back-end of the app as an API (either REST or GraphQL);
 - Use GraphQL if possible.
+
+P.s.: The [Lumen Framework](https://lumen.laravel.com/docs/8.x) (also developed by the Laravel team), was briefly considered, as it is a lightweight option and is very similar to Laravel.
+Laravel was favoured however, due to its completeness. There are some Laravel libraries that are not supported by Lumen (https://lumen.laravel.com/docs/8.x#compatibility).
+Because the project has a very limited timeline, it is better to avoid any surprises.
 
 ## Decision Drivers
 
@@ -27,7 +31,7 @@ The following factors were considered during this research:
 
 Based on the research done during the time this ADR was written. Three main approaches were considered: RESTful API using Laravel, GraphQL API using Laravel GraphQL, and a Hybrid of RESTful + GraphQL API.
 
-### Option 1: RESTful API (Laravel)
+### Option 1: RESTful API (Laravel or Lumen)
 
 https://laravel.com/docs/8.x
 
