@@ -6,11 +6,47 @@ The project will be divided into two main applications: The Back-end RESTful API
 
 ## Back-end
 
-### Laravel MVC Architecture
+### Overall Back-end Architecture
 
-The back-end of this project is a [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer) and adopts the [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), and respects the directory structure imposed by the Laravel Framework: https://laravel.com/docs/8.x/structure
+The back-end of this project is a [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer).
+Its architecture is based on the Clean Architecture, and influenced by the Laravel's [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller).
+It also respects the directory structure imposed by the Laravel Framework: https://laravel.com/docs/8.x/structure
 
-### Data Layer
+- **app/Domain**: (Entities) domain objects. This namespace and folder represent the "Entities" layer of the Clean Architecture.
+- **app/Features**: (Use Cases) actions/features that the app provides.
+  This namespace and folder represent the "Use Cases" layer of the Clean Architecture.
+- **app/Persistence**: (Frameworks and Drivers) This is the Data Layer of our application.
+  Currently implemented over MySQL. If a Database change needs to happen, this is the place to replace.
+  This namespace and folder belongs to the "Interface Adapters" layer in the Clean Architecture.
+- **app/Http**: (Interface Adapters) The "Controller" of the Laravel's MVC: Middlewares and Controllers.
+  A Controller can be associated directl with a Repository (Persistence layer) object,
+  e.g., DepartmentController, when they simple retrieval and updates with no Domain-related logic,
+  or it can be associated with Domain object or a Feature. This namespace and folder belongs to
+  the "Interface Adapters" layer in the Clean Architecture.
+- **app/Providers**: (Interface Adapters) External providers.
+  This is the place where integration with thrid-party services should be implemented.
+  This namespace and folder belongs to the "Interface Adapters" layer in the Clean Architecture.
+- **app/Exceptions**: (Interface Adapters) Non-business related error handling (MVC Layer).
+  This namespace and folder belongs to the "Interface Adapters" layer in the Clean Architecture.
+- **app/Console**: (Interface Adapters) Commands to run in the command line.
+  This namespace and folder belongs to the "Interface Adapters" layer in the Clean Architecture.
+- **database/**: (Frameworks and Drivers) Migrations and Seeders are placed in this folder.
+  Even though this folder is technically part of "Frameworks and Drivers" layer in the
+  Clean Architecture because it is mostly used by Laravel itself, all migrations and
+  seeders should **NOT** use SQL directly, but rather, use the repositories in the **Persistence** layer.
+  In doing so, the SQL is abstracted away from all other layers except the Persistence one.
+- **routes/**: (Frameworks and Drivers) These folders are part of the Laravel Framework, and provide different features,
+  configuration, that can be customized as needed.
+- **bootstrap/, config/, database/, public/, routes/**: (Frameworks and Drivers) These folders are part of the Laravel Framework,
+  and provide different features, configuration, that can be customized as needed.
+
+### Data Layer: Persistence
+
+The **Persistence** namespace and folder represents the Data Layer of the application.
+This namespace provides a **Repository** abstract class that provides all interactions with the database, such as creation, update, retrieval and deletion.
+All repository objects, such as DepartmentsRepository and EmployeesRepository should inherit from this class, and provide specific implementations for each database interactions.
+
+Notice: the `database/` folder should not manipulate SQL directly. Instead, it should use the repository objects from this folder (the **Persistence** layer).
 
 ### API Documentation: Scribe
 
