@@ -86,7 +86,7 @@ https://dev.mysql.com/downloads/workbench/
 - Install PHP >= 7.3 and other Required PHP Packages
 
 ```
-sudo apt install unzip php-cli php-fpm php-mbstring php-xml php-bcmath
+sudo apt install unzip php-cli php-fpm php-mbstring php-xml php-bcmath php-mysql
 ```
 
 ### Composer
@@ -111,10 +111,88 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 composer
 ```
 
+### NGINX (Staging-only)
+
+Front-end SPA address: http://hr.geraldolandre.com/
+Back-end API address: http://hr-api.geraldolandre.com/
+
+- Move the back-end folder to `/var/www` and setup its permissions:
+
+```
+sudo mv ~/simple-hr-app /var/www/
+
+sudo chown -R www-data.www-data /var/www/simple-hr-app/back-end/storage
+sudo chown -R www-data.www-data /var/www/simple-hr-app/back-end/bootstrap/cache
+```
+
+- Create an NGINX configuration file for the API
+
+```
+sudo nano /etc/nginx/sites-available/simple-hr-app-back-end
+```
+
+The content of the file should like like the one bellow.
+
+Replace `api.domainname.com` with the correct domain name.
+
+```
+server {
+    listen 80;
+    server_name api.domainname.com;
+    root /var/www/simple-hr-app/back-end/public;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.html index.htm index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+- Activate the NGINX new virtual host:
+
+```
+sudo ln -s /etc/nginx/sites-available/simple-hr-app-back-end /etc/nginx/sites-enabled/
+```
+
+- Check if the configuration is ok
+
+```
+sudo nginx -t
+```
+
+- Reload NGINX
+
+```
+sudo systemctl reload nginx
+```
+
 ## REFERENCES
 
 - Conventional Commits: https://www.conventionalcommits.org/en/v1.0.0/
 - Semantic Versioning: https://semver.org/
+- MySQL Workbench: https://dev.mysql.com/downloads/workbench/
 - How to install composer on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
 - How to install MySQL on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
-- MySQL Workbench: https://dev.mysql.com/downloads/workbench/
