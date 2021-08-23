@@ -17,5 +17,6 @@ This document contains the hours spent in the project with a brief description o
 | 2021-08-22 | Geraldo | Study          | Read about the Laravel Framework: Database configuration, Migrations, API setup                                                                                |     1:30 |
 | 2021-08-22 | Geraldo | Implementation | Implement User and Department migrations, and Department Controller Skeleton                                                                                   |     1:30 |
 | 2021-08-22 | Geraldo | Test           | Manually test Department endpoints (with Postman)                                                                                                              |     0:30 |
+| 2021-08-22 | Geraldo | Documentation  | Write about the application's architecture and the persistence layer in the ARCHITECTURE.md file.                                                              |     1:00 |
 
-Total hours: 11:30
+Total hours: 12:30
