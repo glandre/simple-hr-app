@@ -6,16 +6,9 @@ The project will be divided into two main applications: The Back-end RESTful API
 
 ## Back-end
 
-### Clean Architecture
+### Laravel MVC Architecture
 
-The back-end code will be structured by following the [Clean Code Architecture (Robert C. Martin, 2012)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-**Notice:** Check if Laravel coding conventions may impact this structure.
-
-Link this image here: https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg
-
-**Add the illustration of the folder structure here**
-
-### Framework of choice: Laravel
+The back-end of this project is a [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer) and adopts the [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller), and respects the directory structure imposed by the Laravel Framework: https://laravel.com/docs/8.x/structure
 
 ### Data Layer
 
