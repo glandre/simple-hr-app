@@ -51,6 +51,11 @@ Notice: the `database/` folder should not manipulate SQL directly. Instead, it s
 ## Front-end
 
 The fornt-end of this application is based on React and follows a component-based approach that is inspired by the Atomic Design.
+Additionally, the following libraries are considered part of the core architecture for the front-end:
+
+* Material UI: https://material-ui.com/
+* Styled Components: https://styled-components.com/
+* React Router: https://reactrouter.com/web/
 
 ### Atomic Design
 
@@ -69,8 +74,5 @@ The fornt-end of this application is based on React and follows a component-base
 
 #### Data Fetching
 
-#### Styling
-
-Styled components.
 
 #### Components Documentation: Storybook
