@@ -26,6 +26,7 @@ function App() {
           <Landing />
         </Route>
       </Switch>
+      App version: 0.0.1
     </Router>
   );
 }

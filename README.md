@@ -48,7 +48,6 @@ MINOR version when you add functionality in a backwards compatible manner, and
 PATCH version when you make backwards compatible bug fixes.
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
-
 ## Server Setup (Local and Staging)
 
 The following steps were executed in the following:
@@ -130,7 +129,6 @@ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 ```
 
 - Install Node LTS:
-
 
 ```
 nvm install --lts
@@ -251,8 +249,26 @@ server {
 
         server_name hr.geraldolandre.com;
 
+        location ~* \.(?:manifest|appcache|html?|xml|json)$ {
+            expires -1;
+            # access_log logs/static.log; # I don't usually include a static log
+        }
+
+        location ~* \.(?:css|js)$ {
+            try_files $uri =404;
+            expires 1y;
+            access_log off;
+            add_header Cache-Control "public";
+        }
+
+        # Any route containing a file extension (e.g. /devicesfile.js)
+        location ~ ^.+\..+$ {
+            try_files $uri =404;
+        }
+
+        # Any route that doesn't have a file extension (e.g. /devices)
         location / {
-                try_files $uri $uri/ =404;
+            try_files $uri $uri/ /index.html;
         }
 }
 ```
