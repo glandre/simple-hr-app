@@ -9,8 +9,11 @@ The project will be divided into two main applications: The Back-end RESTful API
 ### Overall Back-end Architecture
 
 The back-end of this project is a [REST API](https://en.wikipedia.org/wiki/Representational_state_transfer).
-Its architecture is based on the Clean Architecture, and influenced by the Laravel's [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller).
+Its architecture is based on the [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html),
+and influenced by the Laravel's [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller).
 It also respects the directory structure imposed by the Laravel Framework: https://laravel.com/docs/8.x/structure
+
+<img src="https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg" alt="Clean Architecture" width="500"/>
 
 - **app/Domain**: (Entities) domain objects. This namespace and folder represent the "Entities" layer of the Clean Architecture.
 - **app/Features**: (Use Cases) actions/features that the app provides.
@@ -51,7 +54,7 @@ The fornt-end of this application is based on React and follows a component-base
 
 ### Atomic Design
 
-![Atomic Design](https://bradfrost.com/wp-content/uploads/2013/06/atomic-design.png)
+<img src="https://bradfrost.com/wp-content/uploads/2013/06/atomic-design.png" alt="Atomic Design" width="500"/>
 
 - **src/components/atoms**: The basic building blocks, such as Label and TextInput.
 
