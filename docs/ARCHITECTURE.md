@@ -53,9 +53,9 @@ Notice: the `database/` folder should not manipulate SQL directly. Instead, it s
 The fornt-end of this application is based on React and follows a component-based approach that is inspired by the Atomic Design.
 Additionally, the following libraries are considered part of the core architecture for the front-end:
 
-* Material UI: https://material-ui.com/
-* Styled Components: https://styled-components.com/
-* React Router: https://reactrouter.com/web/
+- Material UI: https://material-ui.com/
+- Styled Components: https://styled-components.com/
+- React Router: https://reactrouter.com/web/
 
 ### Atomic Design
 
@@ -71,8 +71,11 @@ Additionally, the following libraries are considered part of the core architectu
 
 - **src/components/pages**: Pages are instances of templates.
 
-
 #### Data Fetching
 
+The `axios` library is used to make it simpler to control API calls, and the calls are organized inside the folder `contexts/api`
+
+- **src/contexts/api**: All functions that fetches data from the back-end are placed in this folder, and they are implemented
+  as Providers and Hooks.
 
 #### Components Documentation: Storybook
