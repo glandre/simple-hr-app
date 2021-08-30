@@ -47,11 +47,22 @@ Notice: the `database/` folder should not manipulate SQL directly. Instead, it s
 
 ## Front-end
 
+The fornt-end of this application is based on React and follows a component-based approach that is inspired by the Atomic Design.
+
 ### Atomic Design
 
-### "Framework" of choice: React
+![Atomic Design](https://bradfrost.com/wp-content/uploads/2013/06/atomic-design.png)
 
-Even though [React is not technically a framework](), it is a comprehensively library **definition here**, and its structure will drive the standards and conventions adopted in the front-end development, just like a framework would do.
+- **src/components/atoms**: The basic building blocks, such as Label and TextInput.
+
+- **src/components/molecules**: Components that are combination of multiple atoms, such as the LogInForm.
+
+- **src/components/organisms**: Complex components that are combination of multiple atoms and molecules. For instance, the NavigationBar is an organism.
+
+- **src/components/templates**: Components that are a combination of multiple organisms, molecules and atoms to form the structure of pages. One template can be reused by one single page or multiple pages.
+
+- **src/components/pages**: Pages are instances of templates.
+
 
 #### Data Fetching
 
