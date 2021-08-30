@@ -119,7 +119,8 @@ Back-end API address: http://hr-api.geraldolandre.com/
 - Move the back-end folder to `/var/www` and setup its permissions:
 
 ```
-sudo mv ~/simple-hr-app /var/www/
+sudo mkdir /var/www/simple-hr-app
+sudo cp -R ~/simple-hr-app/back-end /var/www/simple-hr-app/back-end
 
 sudo chown -R www-data.www-data /var/www/simple-hr-app/back-end/storage
 sudo chown -R www-data.www-data /var/www/simple-hr-app/back-end/bootstrap/cache
@@ -188,6 +189,32 @@ sudo nginx -t
 ```
 sudo systemctl reload nginx
 ```
+
+## Useful Scripts
+
+The folder `scripts` contains useful multi-purpose scripts. See below for details.
+
+### Deployment
+
+`scripts/deploy.sh`
+
+For deployment, access via ssh the server machine, and run the following script:
+
+```bash
+sh ~/simple-hr-app/scripts/deploy.sh
+```
+
+### Tunnel MySQL connection via SSH
+
+In order to connect your local environment with the staging MySQL instance, access the root of the repository and run the following command:
+
+```bash
+sh scripts/start_tunnel.sh
+```
+
+**Notice:** replace `geraldo@geraldolandre.com` with the intended SSH connection.
+
+After this, you should be able to connect to the staging database with `127.0.0.1:3306`, by using the MySQL IDE (e.g., DBeaver) and by setting up your `.env` accordingly.
 
 ## REFERENCES
 
