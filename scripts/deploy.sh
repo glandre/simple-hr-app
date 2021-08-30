@@ -9,13 +9,13 @@ cd ~/simple-hr-app/back-end && composer install
 
 # back up current version
 echo "[deploy.sh] Backup - deleting last.bak..."
-rm -rf ~/backups/back-end/last.bak
+sudo rm -rf ~/backups/back-end/last.bak
 echo "[deploy.sh] Backup - backing up last directory..."
-mv ~/backups/back-end/last ~/backups/back-end/last.bak
+sudo mv ~/backups/back-end/last ~/backups/back-end/last.bak
 
 echo "[deploy.sh] Backup - creating date-based directory..."
 folder_name=$(date '+%Y-%m-%d-%H-%M-%S')
-mkdir -p ~/backups/back-end/$folder_name
+sudo mkdir -p ~/backups/back-end/$folder_name
 
 echo "[deploy.sh] Backup - backing up existing version..."
 sudo mv /var/www/simple-hr-app/back-end ~/backups/back-end/last
