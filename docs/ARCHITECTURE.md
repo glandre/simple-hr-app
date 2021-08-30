@@ -31,10 +31,7 @@ It also respects the directory structure imposed by the Laravel Framework: https
 - **app/Console**: (Interface Adapters) Commands to run in the command line.
   This namespace and folder belongs to the "Interface Adapters" layer in the Clean Architecture.
 - **database/**: (Frameworks and Drivers) Migrations and Seeders are placed in this folder.
-  Even though this folder is technically part of "Frameworks and Drivers" layer in the
-  Clean Architecture because it is mostly used by Laravel itself, all migrations and
-  seeders should **NOT** use SQL directly, but rather, use the repositories in the **Persistence** layer.
-  In doing so, the SQL is abstracted away from all other layers except the Persistence one.
+  In addition to the **Persistence** layer, this is the only place allowed to use SQL directly.
 - **routes/**: (Frameworks and Drivers) These folders are part of the Laravel Framework, and provide different features,
   configuration, that can be customized as needed.
 - **bootstrap/, config/, database/, public/, routes/**: (Frameworks and Drivers) These folders are part of the Laravel Framework,
