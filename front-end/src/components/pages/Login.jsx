@@ -1,21 +1,14 @@
 import React from "react";
 import { useAuth } from "../../contexts/auth";
+import LoginTemplate from "../templates/Login";
 
 const Login = () => {
   const { signin } = useAuth();
-  const handleClick = async () => {
-    await signin({
-      username: "chessable",
-      password: "chessable",
-    });
+  const handleSubmit = async (credentials) => {
+    await signin(credentials);
   };
 
-  return (
-    <div>
-      <h2>Login Page</h2>
-      <button onClick={handleClick}>Login</button>
-    </div>
-  );
+  return <LoginTemplate onSubmit={handleSubmit} />;
 };
 
 export default Login;

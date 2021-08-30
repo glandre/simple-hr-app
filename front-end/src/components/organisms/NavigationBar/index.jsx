@@ -10,13 +10,13 @@ const NavigationBar = ({ children }) => {
 
   return (
     <AppBar position="static">
-      <NavTabs>
+      <NavTabs value={false}>
         {onlyShowPrivateRoutesIfLoggedIn(children, isLoggedIn)}
 
         {isLoggedIn ? (
           <NavigationItem title="Sign out" action={signout} />
         ) : (
-          <NavigationItem title="Login" path="/login" />
+          <NavigationItem title="Sign in" path="/login" />
         )}
       </NavTabs>
     </AppBar>

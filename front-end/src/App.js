@@ -21,7 +21,7 @@ function App() {
           <NavigationItem title="About" path="/about" />
           <NavigationItem title="React" path="/react" />
         </NavigationBar>
-        <Page footerText="App version: 0.0.1">
+        <Page footerText={"App version: 0.0.1 - " + new Date().getFullYear()}>
           <Switch>
             <Route exact path="/about">
               <About />
