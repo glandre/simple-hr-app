@@ -1,3 +1,4 @@
+# This script is supposed to be run in the destination server
 # download code
 echo "[deploy.sh] Downloading latest version..."
 cd ~/simple-hr-app && git checkout main

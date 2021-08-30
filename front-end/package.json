@@ -14,8 +14,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "scp -r ./build/* geraldo@geraldolandre.com:/var/www/hr.geraldolandre.com/html",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject"    
   },
   "eslintConfig": {
     "extends": [

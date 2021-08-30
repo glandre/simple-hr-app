@@ -41,6 +41,7 @@ MINOR version when you add functionality in a backwards compatible manner, and
 PATCH version when you make backwards compatible bug fixes.
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
+
 ## Server Setup (Local and Staging)
 
 The following steps were executed in the following:
@@ -111,10 +112,51 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 composer
 ```
 
+### Node and NPM (Front-end development environment)
+
+**This section only needs to be followed in the development environment.**
+
+- Install Node Version Manager:
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+```
+
+- Install Node LTS:
+
+
+```
+nvm install --lts
+```
+
+- Install the latest NPM version:
+
+```
+sudo apt install nodejs
+```
+
+Last, install the latest npm version:
+
+```
+npm i -g npm@latest
+```
+
+Check the installed versions:
+
+```
+~$ node -v
+v14.17.5
+
+~$ npm -v
+7.21.1
+```
+
 ### NGINX (Staging-only)
 
 Front-end SPA address: http://hr.geraldolandre.com/
 Back-end API address: http://hr-api.geraldolandre.com/
+
+### Back-end
 
 - Move the back-end folder to `/var/www` and setup its permissions:
 
@@ -190,19 +232,50 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-## Useful Scripts
+### Front-end
 
-The folder `scripts` contains useful multi-purpose scripts. See below for details.
+```
+server {
+        listen 80;
+        listen [::]:80;
 
-### Deployment
+        root /var/www/hr.geraldolandre.com/html;
+        index index.html index.htm index.nginx-debian.html;
 
-`scripts/deploy.sh`
+        server_name hr.geraldolandre.com;
 
-For deployment, access via ssh the server machine, and run the following script:
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+```
+
+## Deployment
+
+### Back-end
+
+Use the script `scripts/deploy.sh` directly in the server to perform a back-end deployment.
+
+Access via ssh the server machine, and run the following script:
 
 ```bash
 sh ~/simple-hr-app/scripts/deploy.sh
 ```
+
+### Front-end
+
+In your local development environment run the following commands to deploy the front-end:
+
+```
+cd front-end/
+npm install
+npm run build
+npm run deploy
+```
+
+## Useful Scripts
+
+The folder `scripts` contains useful multi-purpose scripts. See below for details.
 
 ### Tunnel MySQL connection via SSH
 
@@ -223,3 +296,4 @@ After this, you should be able to connect to the staging database with `127.0.0.
 - MySQL Workbench: https://dev.mysql.com/downloads/workbench/
 - How to install composer on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-and-use-composer-on-ubuntu-20-04
 - How to install MySQL on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04
+- How to install Node.js on Ubuntu 20.04 (DigitalOcean): https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
