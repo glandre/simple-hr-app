@@ -1,38 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import { useHistory, useLocation } from "react-router-dom";
+import { Tab } from "@material-ui/core";
 
-const NavigationItem = ({ action, className, title, path }) => {
+const NavigationItem = ({ action, title, path }) => {
   const location = useLocation();
+  const history = useHistory();
   const selected = location.pathname === path;
 
-  return (
-    <NavItemContainer className={className} selected={selected}>
-      {action ? (
-        <button onClick={action}>{title}</button>
-      ) : (
-        <Link to={path}>{title}</Link>
-      )}
-    </NavItemContainer>
-  );
+  const handleClick = () => {
+    if (action) {
+      return action();
+    }
+
+    history.push(path);
+  };
+
+  return <Tab label={title} selected={selected} onClick={handleClick} />;
 };
-
-const NavItemContainer = styled.div`
-  ${(props) => (props.selected ? "text-decoration: underline;" : "")}
-
-  button {
-    background: none !important;
-    border: none;
-    padding: 0 !important;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
 
 NavigationItem.propTypes = {
   action: PropTypes.func,
-  className: PropTypes.string,
   title: PropTypes.string.isRequired,
   path: PropTypes.string,
 };

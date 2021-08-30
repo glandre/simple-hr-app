@@ -17,7 +17,7 @@ function App() {
     <FullSpacedContainer>
       <Router>
         <NavigationBar>
-          <NavigationItem title="Home" path="/home" />
+          <NavigationItem private title="Home" path="/home" />
           <NavigationItem title="About" path="/about" />
           <NavigationItem title="React" path="/react" />
         </NavigationBar>
