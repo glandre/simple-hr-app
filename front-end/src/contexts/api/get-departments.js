@@ -19,10 +19,8 @@ function GetDepartmentsProvider({ children }) {
       });
 
       setDepartments(response.data?.departments || []);
-
-      console.log(">>> response:", { response });
+      setError(null);
     } catch (error) {
-      console.log(">>> error:", { error });
       setError(error);
     } finally {
       setLoading(false);

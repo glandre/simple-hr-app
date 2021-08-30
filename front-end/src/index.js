@@ -1,17 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import './index.css';
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider } from "@material-ui/core";
+import reportWebVitals from "./reportWebVitals";
+import App from "./App";
 import { ApiProvider } from "./contexts/api";
+import theme from "./theme";
+import { AuthProvider } from "./contexts/auth";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CssBaseline />
-    <ApiProvider>
-      <App />
-    </ApiProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ApiProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </ApiProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
