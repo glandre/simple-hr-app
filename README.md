@@ -11,9 +11,16 @@ Here are the main features available in this application:
 - Highest Salary per Department Report: Show all departments along with the highest salary within each department. A department with no employees shows 0 as the highest salary.
 - List of Highly Payed Departments Report: List just those departments that have more than two employees that earn over 50k.
 
+## Running the Application Locally
+
+Instructions to be added here.
+
 ## Architecture
 
-## Software Process
+This project uses Laravel in the back-end, and React in the front-end. Check the Architecture
+documentation for a detailed overview of the Software Architecture.
+
+## Software Development Process
 
 ### Commits
 
