@@ -45,11 +45,6 @@ All repository objects, such as DepartmentsRepository and EmployeesRepository sh
 
 Notice: the `database/` folder should not manipulate SQL directly. Instead, it should use the repository objects from this folder (the **Persistence** layer).
 
-### API Documentation: Scribe
-
-Compatible with Laravel 8
-https://github.com/knuckleswtf/scribe
-
 ## Front-end
 
 ### Atomic Design
