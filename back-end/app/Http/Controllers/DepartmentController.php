@@ -13,10 +13,17 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return response()->json([[
-            'name' => 'IT',
-            'description' => 'Fake IT department'
-        ]]);
+        $departments = [
+            [
+                'id' => '1',
+                'name' => 'IT',
+                'description' => 'Fake IT department'
+            ]
+        ];
+
+        return response()->json([
+            'departments' => $departments
+        ]);
     }
 
     /**
