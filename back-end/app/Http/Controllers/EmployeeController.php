@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-use App\Entity\Department;
-use App\Persistence\DepartmentRepository;
+use App\Entity\Employee;
+use App\Persistence\EmployeeRepository;
 
-class DepartmentController extends Controller
+class EmployeeController extends  Controller
 {
     private $repository;
 
     function __construct() {
-        $this->repository = new DepartmentRepository();
+        $this->repository = new EmployeeRepository();
     }
 
     /**
@@ -23,13 +23,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = $this->repository->retrieveAll();
+        $employees = $this->repository->retrieveAll();
 
-        Log::debug("[DepartmentController.index] departments:");
-        Log::debug($departments);
+        Log::debug("[EmployeeController.index] employees:");
+        Log::debug($employees);
         Log::debug('-----------------------');
 
-        return response()->json($departments);
+        return response()->json($employees);
     }
 
     /**
@@ -51,13 +51,13 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        $department = $this->repository->retrieve($id);
+        $employee = $this->repository->retrieve($id);
 
-        Log::debug("[DepartmentController.show] department:");
-        Log::debug($department?->toArray());
+        Log::debug("[EmployeeController.show] employee:");
+        Log::debug($employee?->toArray());
         Log::debug('-----------------------');
 
-        return response()->json(['department' => $department]);
+        return response()->json([ 'employee' => $employee]);
     }
 
     /**
@@ -69,17 +69,17 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::debug("[DepartmentController.update] [id=$id] request:");
+        Log::debug("[EmployeeController.update] [id=$id] request:");
         Log::debug($request);
         Log::debug('-----------------------');
 
-        $department = new Department();
-        $department->fromArray($request);
-        $department->id = $id;
+        $employee = new Employee();
+        $employee->fromArray($request);
+        $employee->id = $id;
 
-        $result = $this->repository->update($department);
+        $result = $this->repository->update($employee);
 
-        Log::debug("[DepartmentController.update] result:");
+        Log::debug("[EmployeeController.update] result:");
         Log::debug($result);
         Log::debug('-----------------------');
 
@@ -94,11 +94,11 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        Log::debug("[DepartmentController.destroy] [id=$id]");
+        Log::debug("[EmployeeController.destroy] [id=$id]");
 
         $result = $this->repository->delete($id);
 
-        Log::debug("[DepartmentController.destroy] result:");
+        Log::debug("[EmployeeController.destroy] result:");
         Log::debug($result);
         Log::debug('-----------------------');
 

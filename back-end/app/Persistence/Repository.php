@@ -10,4 +10,5 @@ interface Repository {
     public function retrieveAll();
     public function update(Entity $entity);
     public function delete($id);
+    public function deleteAll();
 }
