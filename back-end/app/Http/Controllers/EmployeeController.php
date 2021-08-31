@@ -54,7 +54,7 @@ class EmployeeController extends  Controller
         $employee = $this->repository->retrieve($id);
 
         Log::debug("[EmployeeController.show] employee:");
-        Log::debug($employee?->toArray());
+        Log::debug($employee ? $employee->toArray() : null);
         Log::debug('-----------------------');
 
         return response()->json([ 'employee' => $employee]);

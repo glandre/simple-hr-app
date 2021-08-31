@@ -90,7 +90,9 @@ https://dev.mysql.com/downloads/workbench/
 
 ### PHP
 
-- Install PHP >= 7.3 and other Required PHP Packages
+- Install PHP >= 7.3 (PHP < 8) and other Required PHP Packages
+
+**Notice:** PHP 8 is not supported in the current staging environment.
 
 ```
 sudo apt install unzip php-cli php-fpm php-mbstring php-xml php-bcmath php-mysql

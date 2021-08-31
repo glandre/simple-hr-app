@@ -54,7 +54,7 @@ class DepartmentController extends Controller
         $department = $this->repository->retrieve($id);
 
         Log::debug("[DepartmentController.show] department:");
-        Log::debug($department?->toArray());
+        Log::debug($department ? $department->toArray() : null);
         Log::debug('-----------------------');
 
         return response()->json(['department' => $department]);
