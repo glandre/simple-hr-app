@@ -18,7 +18,7 @@ function GetDepartmentsProvider({ children }) {
         url: "/departments",
       });
 
-      setDepartments(response.data?.departments || []);
+      setDepartments(response.data || []);
       setError(null);
     } catch (error) {
       setError(error);

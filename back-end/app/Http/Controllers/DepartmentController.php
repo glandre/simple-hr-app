@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+use App\Entity\Department;
+use App\Persistence\DepartmentRepository;
 
 class DepartmentController extends Controller
 {
+    private $repository;
+
+    function __construct() {
+        $this->repository = new DepartmentRepository();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,17 +23,13 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = [
-            [
-                'id' => '1',
-                'name' => 'IT',
-                'description' => 'Fake IT department'
-            ]
-        ];
+        $departments = $this->repository->retrieveAll();
 
-        return response()->json([
-            'departments' => $departments
-        ]);
+        Log::debug("[DepartmentController.index] departments:");
+        Log::debug($departments);
+        Log::debug('-----------------------');
+
+        return response()->json($departments);
     }
 
     /**
@@ -45,10 +51,13 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        // return response()->json([
-        //     'name' => 'IT',
-        //     'description' => 'Fake IT department'
-        // ]);
+        $department = $this->repository->retrieve($id);
+
+        Log::debug("[DepartmentController.show] department:");
+        Log::debug($department->toArray());
+        Log::debug('-----------------------');
+
+        return response()->json($department);
     }
 
     /**
@@ -60,7 +69,21 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Log::debug("[DepartmentController.update] [id=$id] request:");
+        Log::debug($request);
+        Log::debug('-----------------------');
+
+        $department = new Department();
+        $department->fromArray($request);
+        $department->id = $id;
+
+        $result = $this->repository->update($department);
+
+        Log::debug("[DepartmentController.update] result:");
+        Log::debug($result);
+        Log::debug('-----------------------');
+
+        return true;
     }
 
     /**
@@ -71,6 +94,14 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Log::debug("[DepartmentController.destroy] [id=$id]");
+
+        $result = $this->repository->delete($id);
+
+        Log::debug("[DepartmentController.destroy] result:");
+        Log::debug($result);
+        Log::debug('-----------------------');
+
+        return true;
     }
 }
