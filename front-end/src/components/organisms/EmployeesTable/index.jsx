@@ -28,6 +28,7 @@ export default function EmployeesTable({
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>ID</TableCell>
             <TableCell>FirstName</TableCell>
             <TableCell>LastName</TableCell>
             <TableCell>Email</TableCell>
@@ -41,6 +42,7 @@ export default function EmployeesTable({
         <TableBody>
           {data.map((row) => (
             <TableRow key={row.email}>
+              <TableCell>{row.id}</TableCell>
               <TableCell component="th" scope="row">
                 {row.firstName}
               </TableCell>

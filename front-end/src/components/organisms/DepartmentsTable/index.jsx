@@ -28,6 +28,7 @@ export default function DepartmentsTable({
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
+            <TableCell>ID</TableCell>
             <TableCell>Department</TableCell>
             <TableCell>Description</TableCell>
             <TableCell align="right">Last update</TableCell>
@@ -38,6 +39,7 @@ export default function DepartmentsTable({
         <TableBody>
           {data.map((row) => (
             <TableRow key={row.name}>
+              <TableCell>{row.id}</TableCell>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
