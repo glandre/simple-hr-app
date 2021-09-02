@@ -29,3 +29,4 @@ Route::apiResources([
 Route::get('departments/{id}/employees', [DepartmentController::class, 'employees']);
 
 Route::get('reports/departments/highest-salaries', [DepartmentReportsController::class, 'highestSalaries']);
+Route::get('reports/departments/with/{numEmployees}/over/{salary}', [DepartmentReportsController::class, 'withEmployeeSalariesOver']);

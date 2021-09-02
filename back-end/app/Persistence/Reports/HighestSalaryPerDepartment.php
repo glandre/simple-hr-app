@@ -4,11 +4,11 @@ namespace App\Persistence\Reports;
 
 use Illuminate\Support\Facades\DB;
 
-// Report: 
-// Show all departments along with the highest salary within each department.
-// A department with no employees should show 0 as the highest salary.
-
-
+/**
+ * Report: 
+ * Show all departments along with the highest salary within each department.
+ * A department with no employees should show 0 as the highest salary.
+ */
 class HighestSalaryPerDepartment implements Report
 {
     public function generate(): array

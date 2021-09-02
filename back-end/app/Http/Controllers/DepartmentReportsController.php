@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Persistence\Reports\DepartmentsWithXEmployeesOverYSalary;
 use App\Persistence\Reports\HighestSalaryPerDepartment;
-use App\Persistence\Reports\Report;
 
 class DepartmentReportsController extends Controller
 {
-    private Report $report;
-
     function __construct()
     {
         $this->report = new HighestSalaryPerDepartment();
@@ -21,7 +19,18 @@ class DepartmentReportsController extends Controller
      */
     public function highestSalaries()
     {
-        $result = $this->report->generate();
+        $report = new HighestSalaryPerDepartment();
+        $result = $report->generate();
+        return response()->json($result);
+    }
+
+    /**
+     * List just those departments that have more than two employees that earn over 50k.
+     */
+    public function withEmployeeSalariesOver($numEmployees, $salary)
+    {
+        $report = new DepartmentsWithXEmployeesOverYSalary($numEmployees, $salary);
+        $result = $report->generate();
         return response()->json($result);
     }
 }
