@@ -3,7 +3,7 @@
 namespace App\Persistence;
 
 use App\Entities\Entity;
-
+use App\Entities\Exceptions\InvalidEntityException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -34,20 +34,19 @@ abstract class AbstractRepository implements Repository {
 
     /**
      * Inserts a new entity in the table.
+     * @return true if one entry was successfully created.
      */
-    public function create(Entity $entity) {
-        $result = DB::update($this->getQueries()->INSERT, $this->getEditableFields());
-        Log::debug("[AbstractRepository.create] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
+    public function create(Entity $entity): bool {
+        $result = DB::insert($this->getQueries()->INSERT, $this->getEditableFields($entity));
+        Log::debug("[AbstractRepository.create] result: " . $result);
 
-        return $this->buildEntities($result);
+        return $result === 1;
     }
 
     /**
      * Retrieves an entity from the table based on its id.
      */
-    public function retrieve($id){
+    public function retrieve($id): Entity {
         Log::debug("[AbstractRepository.retrieve] id: $id");
         
         $result = DB::select($this->getQueries()->SELECT_BY_ID, [$id]);
@@ -76,44 +75,41 @@ abstract class AbstractRepository implements Repository {
     /**
      * Retrieves all entities from the table.
      */
-    public function retrieveAll(){
+    public function retrieveAll(): array {
         $result = DB::select($this->getQueries()->SELECT_ALL);
         return $this->buildEntities($result);
     }
 
     /**
      * Updates an entity in the table.
+     * @return true if one entry was successfully updated.
      */
-    public function update(Entity $entity){
-        $result = DB::update($this->getQueries()->UPDATE, $this->getEditableFields());
-        Log::debug("[AbstractRepository.update] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
+    public function update(Entity $entity): bool{
+        $result = DB::update($this->getQueries()->UPDATE, $this->getEditableFields($entity));
+        Log::debug("[AbstractRepository.update] result: " . $result);
 
-        return $this->buildEntities($result);
+        return $result === 1;
     }
 
     /**
      * Deletes an entity from the table
+     * @return true if one entry was successfully deleted.
      */
-    public function delete($id){
+    public function delete($id): bool{
         $result = DB::delete($this->getQueries()->DELETE, [$id]);
-        Log::debug("[AbstractRepository.delete] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
+        Log::debug("[AbstractRepository.delete] result: " . $result);
 
-        return $result;
+        return $result === 1;
     }
 
     /**
      * Deletes an entity from the table
+     * @return the number of affected rows
      */
-    public function deleteAll() {
+    public function deleteAll(): int {
         $result = DB::delete($this->getQueries()->DELETE_ALL);
-        Log::debug("[AbstractRepository.deleteAll] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
+        Log::debug("[AbstractRepository.deleteAll] result: " . $result);
 
         return $result;
-    }    
+    }   
 }

@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Entities\Employee;
+use App\Persistence\DepartmentRepository;
+use App\Persistence\EmployeeRepository;
 use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
-use App\Persistence\EmployeeRepository;
 
 class EmployeesTableSeeder extends Seeder
 {
@@ -17,17 +17,34 @@ class EmployeesTableSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        $repository = new EmployeeRepository();
+        $employeeRepository = new EmployeeRepository();
+        $depatmentRepository = new DepartmentRepository();
 
         // Let's truncate our existing records to start from scratch.
-        $repository->deleteAll();
+        $employeeRepository->deleteAll();
 
-        // And now, let's create a few articles in our database:
-        foreach ($fakeEmployees as $employee) {
-            // DB::statement(
-            //     'INSERT INTO `employees` (`name`, `description`, `created_at`, `updated_at`) VALUES(?, ?, now(), now())',
-            //     [$employee['name'], $employee['description'], ]
-            // );
+        $departments = $depatmentRepository->retrieveAll();
+
+        foreach($departments as $department) {
+            for ($i = 0; $i < 10; $i++) {
+                $employeeRepository->create(generateFakeEmployee($department->id, $faker));
+            }
         }
     }
+}
+
+function generateFakeEmployee(int $departmentId, Faker $faker): Employee {
+    $email = $faker->email;
+    $fullName = $faker->name;
+    $parts = explode(' ', $fullName);
+    $lastName = end($parts);
+    $firstName = str_replace($lastName,'',$fullName);
+
+    $employee = new Employee();
+    $employee->email = $email;
+    $employee->firstName = $firstName;
+    $employee->lastName = $lastName;
+    $employee->departmentId = $departmentId;
+
+    return $employee;
 }

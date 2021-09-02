@@ -2,8 +2,9 @@
 
 namespace App\Entities;
 
-class Employee implements Entity {
+class Employee extends AbstractEntity implements Entity {
     public $id = null;
+    public $email = null;
     public $firstName = null;
     public $lastName = null;
     public $departmentId = null;
@@ -13,6 +14,7 @@ class Employee implements Entity {
     public function toArray() {
         return array(
             'id' => $this->id,
+            'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'departmentId' => $this->departmentId,
@@ -23,6 +25,7 @@ class Employee implements Entity {
 
     public function fromArray($array) {
         $this->id = $array['id'];
+        $this->email = $array['email'];
         $this->firstName = $array['firstName'];
         $this->lastName = $array['lastName'];
         $this->departmentId = $array['departmentId'];
@@ -32,10 +35,16 @@ class Employee implements Entity {
 
     public function fromObject($object) {
         $this->id = $object->id;
+        $this->email = $object->email;
         $this->firstName = $object->firstName;
         $this->lastName = $object->lastName;
         $this->departmentId = $object->departmentId;
         $this->createdAt = $object->createdAt;
         $this->updatedAt = $object->updatedAt;
+    }
+
+    public function requiredFields(): array
+    {
+        return ['email', 'firstName', 'lastName', 'departmentId'];
     }
 }

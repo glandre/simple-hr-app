@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Employee;
+use App\Persistence\EmployeeRepository;
+use Faker\Generator as Faker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
-use App\Entity\Employee;
-use App\Persistence\EmployeeRepository;
 
 class EmployeeController extends  Controller
 {
@@ -40,7 +40,20 @@ class EmployeeController extends  Controller
      */
     public function store(Request $request)
     {
-        //
+        $employee = new Employee();
+        $employee->fromObject($request);
+
+        Log::debug("[EmployeeController.store] request:");
+        Log::debug($request);
+        Log::debug('-----------------------');
+        Log::debug("[EmployeeController.show] employee:");
+        Log::debug($employee ? $employee->toArray() : null);
+        Log::debug('-----------------------');
+
+        $employee->validate();
+
+        $employeeRepository = new EmployeeRepository();
+        $employeeRepository->create($employee);
     }
 
     /**
@@ -103,5 +116,21 @@ class EmployeeController extends  Controller
         Log::debug('-----------------------');
 
         return true;
+    }
+
+    private function generateFakeEmployee(int $departmentId, Faker $faker): Employee {
+        $email = $faker->email;
+        $fullName = $faker->name;
+        $parts = explode(' ', $fullName);
+        $lastName = end($parts);
+        $firstName = str_replace($lastName,'',$fullName);
+    
+        $employee = new Employee();
+        $employee->email = $email;
+        $employee->firstName = $firstName;
+        $employee->lastName = $lastName;
+        $employee->departmentId = $departmentId;
+    
+        return $employee;
     }
 }

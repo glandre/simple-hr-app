@@ -6,4 +6,5 @@ interface Entity {
     public function toArray();
     public function fromArray($array);
     public function fromObject($object);
+    public function requiredFields(): array;
 }

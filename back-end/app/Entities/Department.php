@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-class Department implements Entity {
+class Department extends AbstractEntity implements Entity {
     public $id = null;
     public $name = null;
     public $description = null;
@@ -33,5 +33,10 @@ class Department implements Entity {
         $this->description = $object->description;
         $this->createdAt = $object->createdAt;
         $this->updatedAt = $object->updatedAt;
+    }
+
+    public function requiredFields(): array
+    {
+        return ['name'];
     }
 }
