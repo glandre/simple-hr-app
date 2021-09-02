@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Entities\Exceptions\EntityException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -41,10 +42,25 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
-                return response()->json([
-                    'message' => 'Record not found.'
-                ], 404);
+            return response()->json([
+                'message' => 'Record not found.'
+            ], 404);
 
+        });
+
+        $this->renderable(function (QueryException $e) {
+            // This renderable handles "Violation of UNIQUE constraint".
+            // NOTICE: This is a solution that works only on MySQL.
+            $errorCode = $e->errorInfo[1];
+            if($errorCode == 1062){
+                return response()->json([
+                    'message' => 'Duplication error, this value is already in use.'
+                ], 400);
+            }
+
+            return response()->json([
+                'message' => 'An unexpected error happened, please try again later.'
+            ], 500);
         });
 
         $this->renderable(function (EntityException $e, $request) {
