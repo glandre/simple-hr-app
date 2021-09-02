@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Entities\Exceptions\EntityException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,7 +15,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        EntityException::class
     ];
 
     /**
@@ -36,6 +38,25 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+                return response()->json([
+                    'message' => 'Record not found.'
+                ], 404);
+
+        });
+
+        $this->renderable(function (EntityException $e, $request) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 400);
+        });
+
+        $this->renderable(function(Throwable $e) {
+            return response()->json([
+                'message' => 'An unexpected error happened, please try again later.'
+            ], 500);
         });
     }
 }

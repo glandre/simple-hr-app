@@ -2,10 +2,11 @@
 
 namespace App\Entities\Exceptions;
 
+use Exception;
 use Throwable;
 
-class InvalidEntityException extends EntityException {
+class EntityException extends Exception {
     public function __construct($message, $code = 0, Throwable $previous = null) {
-        parent::__construct("Invalid Entity. $message", $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 }
