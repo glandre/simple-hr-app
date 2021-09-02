@@ -63,9 +63,14 @@ const ReportsPage = () => {
     }
   };
 
-  const bodyContent = explanation[report] || "Select a report to start.";
   const loading =
     departmentsWithOver.loading || departmentHighestSalaries.loading;
+
+  const error = departmentsWithOver.error || departmentHighestSalaries.error;
+
+  const bodyContent = error
+    ? error.message
+    : explanation[report] || "Select a report to start.";
 
   return (
     <Container>

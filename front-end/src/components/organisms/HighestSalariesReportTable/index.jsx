@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function HighestSalariesReportTable({ data }) {
+export default function HighestSalariesReportTable({ data = [] }) {
   const classes = useStyles();
 
   return (
