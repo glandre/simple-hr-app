@@ -22,8 +22,9 @@ class DepartmentsWithXEmployeesOverYSalary implements Report
     public function generate(): array
     {
         $results = DB::select("SELECT 
-                departments.*,
-                partial_data.number_of_employees 
+                departments.id,
+                departments.name,
+                partial_data.number_of_employees  as numberOfEmployees
             FROM departments
             JOIN (
                 SELECT d.id, COUNT(d.id) AS number_of_employees

@@ -5,9 +5,7 @@ const PostLogoutContext = React.createContext();
 
 const fakeLogout = () => {
   return new Promise((resolve, reject) => {
-    console.log("Log out start");
     setTimeout(() => {
-      console.log("Log out finish");
       resolve({ success: true });
     }, 500);
   });

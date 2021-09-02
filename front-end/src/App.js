@@ -12,6 +12,7 @@ import EmployeesPage from "./components/pages/Employees";
 import HomePage from "./components/pages/Home";
 import Landing from "./components/pages/Landing";
 import LoginPage from "./components/pages/Login";
+import ReportsPage from "./components/pages/Reports";
 
 const drawerWidth = 240;
 
@@ -41,6 +42,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute exact path="/employees">
               <EmployeesPage />
+            </PrivateRoute>
+            <PrivateRoute exact path="/reports">
+              <ReportsPage />
             </PrivateRoute>
             <Route exact path="/">
               <Landing />

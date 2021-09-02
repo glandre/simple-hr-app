@@ -6,6 +6,7 @@ import AssessmentIcon from "@material-ui/icons/Assessment";
 import BusinessIcon from "@material-ui/icons/Business";
 import Divider from "../../atoms/Divider";
 import SideBarItem from "../../molecules/SideBarItem";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SideBar = ({ width, hidden }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   if (hidden) {
     return null;
@@ -51,12 +53,24 @@ const SideBar = ({ width, hidden }) => {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <SideBarItem text="Departments" icon={<BusinessIcon />} />
-        <SideBarItem text="Employees" icon={<PermContactCalendarIcon />} />
+        <SideBarItem
+          text="Departments"
+          icon={<BusinessIcon />}
+          onClick={() => history.push("/departments")}
+        />
+        <SideBarItem
+          text="Employees"
+          icon={<PermContactCalendarIcon />}
+          onClick={() => history.push("/employees")}
+        />
       </List>
       <Divider />
       <List>
-        <SideBarItem text="Reports" icon={<AssessmentIcon />} />
+        <SideBarItem
+          text="Reports"
+          icon={<AssessmentIcon />}
+          onClick={() => history.push("/reports")}
+        />
       </List>
     </MuiDrawer>
   );

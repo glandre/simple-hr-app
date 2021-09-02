@@ -4,9 +4,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
 import React from "react";
 
-const SideBarItem = ({ text, icon }) => {
+const SideBarItem = ({ text, icon, onClick }) => {
   return (
-    <ListItem button key={text}>
+    <ListItem button key={text} onClick={onClick}>
       <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={text} />
     </ListItem>
