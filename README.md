@@ -83,6 +83,29 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 composer
 ```
 
+### Setup Laravel
+
+Create a `.env` file inside the folder `back-end` based on the [.env.example](https://github.com/glandre/simple-hr-app/blob/main/back-end/.env.example)
+
+Generate a key with artisan:
+```
+php artisan key:generate
+```
+
+And place the value in `.env` `APP_KEY=` variable.
+
+Update the MySQL connection info on `.env` with the info used on the 
+[MySQL section](#mysql).
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_USERNAME=
+```
+
 ### Node and NPM (Front-end development environment)
 
 **This section only needs to be followed in the development environment.**
