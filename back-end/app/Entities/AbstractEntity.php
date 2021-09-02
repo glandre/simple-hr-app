@@ -3,11 +3,13 @@
 namespace App\Entities;
 
 use App\Entities\Exceptions\InvalidEntityException;
+use Illuminate\Support\Facades\Log;
 
 abstract class AbstractEntity implements Entity {
-    abstract public function toArray();
-    abstract public function fromArray($array);
-    abstract public function fromObject($object);
+    abstract public function clone(): Entity;
+    abstract public function toArray(): array;
+    abstract public function fromArray($array): Entity;
+    abstract public function fromObject($object): Entity;
     abstract public function requiredFields(): array;
     
     /**
@@ -38,4 +40,33 @@ abstract class AbstractEntity implements Entity {
 
         return $missingFields;
     }
+
+    public function __toString() {
+        return get_class($this) . ": " . json_encode($this->toArray());
+    }
+}
+
+/**
+ * Merge the entities passed as parameters by
+ * overriding fields sequentially.
+ * Each subsequent entity overrides the preivous values.
+ * 
+ * @return Entity the resulting Entity
+ */
+function mergeEntities(...$entities): Entity {
+    if (count($entities) < 2) {
+        return $entities[0];
+    }
+
+    $updates = $entities[0]->clone();
+
+    $arrays = array_map(function($entity) {
+        return is_array($entity) ? $entity : $entity->toArray();
+    }, $entities);
+
+    $merged = array_merge(...$arrays);
+
+    $result = $updates->fromArray($merged);
+
+    return $result;
 }

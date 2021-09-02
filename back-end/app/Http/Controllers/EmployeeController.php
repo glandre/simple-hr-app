@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Entities\Employee;
 use App\Persistence\EmployeeRepository;
-use Faker\Generator as Faker;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use function App\Entities\mergeEntities;
 
 class EmployeeController extends  Controller
 {
     private $repository;
 
-    function __construct() {
+    function __construct()
+    {
         $this->repository = new EmployeeRepository();
     }
 
@@ -24,10 +26,6 @@ class EmployeeController extends  Controller
     public function index()
     {
         $employees = $this->repository->retrieveAll();
-
-        Log::debug("[EmployeeController.index] employees:");
-        Log::debug($employees);
-        Log::debug('-----------------------');
 
         return response()->json($employees);
     }
@@ -42,18 +40,10 @@ class EmployeeController extends  Controller
     {
         $employee = new Employee();
         $employee->fromObject($request);
-
-        Log::debug("[EmployeeController.store] request:");
-        Log::debug($request);
-        Log::debug('-----------------------');
-        Log::debug("[EmployeeController.show] employee:");
-        Log::debug($employee ? $employee->toArray() : null);
-        Log::debug('-----------------------');
-
         $employee->validate();
-
-        $employeeRepository = new EmployeeRepository();
-        $employeeRepository->create($employee);
+        $this->repository->create($employee);
+        $stored = $this->repository->retrieveByEmail($employee->email);
+        return response()->json([ 'employee' => $stored ]);
     }
 
     /**
@@ -65,11 +55,9 @@ class EmployeeController extends  Controller
     public function show($id)
     {
         $employee = $this->repository->retrieve($id);
-
-        Log::debug("[EmployeeController.show] employee:");
-        Log::debug($employee ? $employee->toArray() : null);
-        Log::debug('-----------------------');
-
+        if (empty($employee)) {
+            throw new NotFoundHttpException('No records with this ID were found');
+        }
         return response()->json([ 'employee' => $employee]);
     }
 
@@ -82,21 +70,15 @@ class EmployeeController extends  Controller
      */
     public function update(Request $request, $id)
     {
-        Log::debug("[EmployeeController.update] [id=$id] request:");
-        Log::debug($request);
-        Log::debug('-----------------------');
-
-        $employee = new Employee();
-        $employee->fromArray($request);
-        $employee->id = $id;
-
-        $result = $this->repository->update($employee);
-
-        Log::debug("[EmployeeController.update] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
-
-        return true;
+        $entity = $this->repository->retrieve($id);
+        if (empty($entity)) {
+            throw new NotFoundHttpException('No records with this ID were found');
+        }
+        $updated = mergeEntities($entity, $request);
+        $updated->validate();
+        $this->repository->update($updated);
+        $employee = $this->repository->retrieve($id);
+        return response()->json([ 'employee' => $employee]);
     }
 
     /**
@@ -107,30 +89,10 @@ class EmployeeController extends  Controller
      */
     public function destroy($id)
     {
-        Log::debug("[EmployeeController.destroy] [id=$id]");
-
-        $result = $this->repository->delete($id);
-
-        Log::debug("[EmployeeController.destroy] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
-
-        return true;
-    }
-
-    private function generateFakeEmployee(int $departmentId, Faker $faker): Employee {
-        $email = $faker->email;
-        $fullName = $faker->name;
-        $parts = explode(' ', $fullName);
-        $lastName = end($parts);
-        $firstName = str_replace($lastName,'',$fullName);
-    
-        $employee = new Employee();
-        $employee->email = $email;
-        $employee->firstName = $firstName;
-        $employee->lastName = $lastName;
-        $employee->departmentId = $departmentId;
-    
-        return $employee;
+        $deleted = $this->repository->retrieve($id);
+        $success = $this->repository->delete($id);
+        return $success 
+            ? response()->json([ 'success' => true, 'deleted' => $deleted ])
+            : response()->json([ 'success' => false]);
     }
 }

@@ -3,9 +3,7 @@
 namespace App\Persistence;
 
 use App\Entities\Entity;
-use App\Entities\Exceptions\InvalidEntityException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 abstract class AbstractRepository implements Repository {
     /**
@@ -36,46 +34,30 @@ abstract class AbstractRepository implements Repository {
      * Inserts a new entity in the table.
      * @return true if one entry was successfully created.
      */
-    public function create(Entity $entity): bool {
+    public function create(Entity $entity): bool
+    {
         $result = DB::insert($this->getQueries()->INSERT, $this->getEditableFields($entity));
-        Log::debug("[AbstractRepository.create] result: " . $result);
-
         return $result === 1;
     }
 
     /**
      * Retrieves an entity from the table based on its id.
      */
-    public function retrieve($id): Entity {
-        Log::debug("[AbstractRepository.retrieve] id: $id");
-        
+    public function retrieve($id): ?Entity
+    {       
         $result = DB::select($this->getQueries()->SELECT_BY_ID, [$id]);
-
-        Log::debug("[AbstractRepository.retrieve] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
-
         $entities = $this->buildEntities($result);
-
-        Log::debug("[AbstractRepository.retrieve] entities:");
-        Log::debug($entities);
-        Log::debug('-----------------------');
-
         if (count($entities) > 0) {
-            Log::debug("[AbstractRepository.retrieve] returning:");
-            Log::debug($entities[0]->toArray());
-            Log::debug('-----------------------');
             return $entities[0];
         }
-
-        Log::debug("[AbstractRepository.retrieve] returning null.");
         return null;
     }
 
     /**
      * Retrieves all entities from the table.
      */
-    public function retrieveAll(): array {
+    public function retrieveAll(): array
+    {
         $result = DB::select($this->getQueries()->SELECT_ALL);
         return $this->buildEntities($result);
     }
@@ -84,9 +66,12 @@ abstract class AbstractRepository implements Repository {
      * Updates an entity in the table.
      * @return true if one entry was successfully updated.
      */
-    public function update(Entity $entity): bool{
-        $result = DB::update($this->getQueries()->UPDATE, $this->getEditableFields($entity));
-        Log::debug("[AbstractRepository.update] result: " . $result);
+    public function update(Entity $entity): bool
+    {
+        $fields = $this->getEditableFields($entity);
+        $fields[] = $entity->id;
+
+        $result = DB::update($this->getQueries()->UPDATE, $fields);
 
         return $result === 1;
     }
@@ -95,10 +80,9 @@ abstract class AbstractRepository implements Repository {
      * Deletes an entity from the table
      * @return true if one entry was successfully deleted.
      */
-    public function delete($id): bool{
+    public function delete($id): bool
+    {
         $result = DB::delete($this->getQueries()->DELETE, [$id]);
-        Log::debug("[AbstractRepository.delete] result: " . $result);
-
         return $result === 1;
     }
 
@@ -106,10 +90,9 @@ abstract class AbstractRepository implements Repository {
      * Deletes an entity from the table
      * @return the number of affected rows
      */
-    public function deleteAll(): int {
+    public function deleteAll(): int
+    {
         $result = DB::delete($this->getQueries()->DELETE_ALL);
-        Log::debug("[AbstractRepository.deleteAll] result: " . $result);
-
         return $result;
     }   
 }

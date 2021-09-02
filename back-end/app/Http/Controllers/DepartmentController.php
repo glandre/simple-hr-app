@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
-use App\Entity\Department;
+use App\Entities\Department;
 use App\Persistence\DepartmentRepository;
+use App\Persistence\EmployeeRepository;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use function App\Entities\mergeEntities;
 
 class DepartmentController extends Controller
 {
     private $repository;
+    private $employeeRepository;
 
-    function __construct() {
+    function __construct()
+    {
         $this->repository = new DepartmentRepository();
+        $this->employeeRepository = new EmployeeRepository();
     }
 
     /**
@@ -24,23 +29,7 @@ class DepartmentController extends Controller
     public function index()
     {
         $departments = $this->repository->retrieveAll();
-
-        Log::debug("[DepartmentController.index] departments:");
-        Log::debug($departments);
-        Log::debug('-----------------------');
-
         return response()->json($departments);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -52,12 +41,32 @@ class DepartmentController extends Controller
     public function show($id)
     {
         $department = $this->repository->retrieve($id);
-
-        Log::debug("[DepartmentController.show] department:");
-        Log::debug($department ? $department->toArray() : null);
-        Log::debug('-----------------------');
-
+        if (empty($department)) {
+            throw new NotFoundHttpException('No records with this ID were found');
+        }
         return response()->json(['department' => $department]);
+    }
+
+    public function employees($id)
+    {
+        $employees = $this->employeeRepository->retrieveByDepartmentId($id);
+        return response()->json($employees);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $department = new Department();
+        $department->fromObject($request);
+        $department->validate();
+        $this->repository->create($department);
+        $stored = $this->repository->retrieveByName($department->name);
+        return response()->json([ 'department' => $stored ]);
     }
 
     /**
@@ -69,21 +78,15 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Log::debug("[DepartmentController.update] [id=$id] request:");
-        Log::debug($request);
-        Log::debug('-----------------------');
-
-        $department = new Department();
-        $department->fromArray($request);
-        $department->id = $id;
-
-        $result = $this->repository->update($department);
-
-        Log::debug("[DepartmentController.update] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
-
-        return true;
+        $entity = $this->repository->retrieve($id);
+        if (empty($entity)) {
+            throw new NotFoundHttpException('No records with this ID were found');
+        }
+        $updated = mergeEntities($entity, $request);
+        $updated->validate();
+        $this->repository->update($updated);
+        $department = $this->repository->retrieve($id);
+        return response()->json([ 'department' => $department]);
     }
 
     /**
@@ -94,14 +97,10 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        Log::debug("[DepartmentController.destroy] [id=$id]");
-
-        $result = $this->repository->delete($id);
-
-        Log::debug("[DepartmentController.destroy] result:");
-        Log::debug($result);
-        Log::debug('-----------------------');
-
-        return true;
+        $deleted = $this->repository->retrieve($id);
+        $success = $this->repository->delete($id);
+        return $success 
+            ? response()->json([ 'success' => true, 'deleted' => $deleted ])
+            : response()->json([ 'success' => false]);
     }
 }

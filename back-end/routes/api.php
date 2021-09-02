@@ -24,3 +24,5 @@ Route::apiResources([
     'departments' => DepartmentController::class,
     'employees' => EmployeeController::class
 ]);
+
+Route::get('departments/{id}/employees', [DepartmentController::class, 'employees']);
