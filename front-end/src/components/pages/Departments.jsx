@@ -125,8 +125,7 @@ const DepartmentsPage = () => {
         <FormControl>
           <TextField
             placeholder="Name"
-            labelId="department-name"
-            id="report-select"
+            id="department-name"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
@@ -137,8 +136,7 @@ const DepartmentsPage = () => {
           <TextField
             multiline
             placeholder="Description"
-            labelId="department-description"
-            id="report-select"
+            id="department-description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

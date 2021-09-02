@@ -22,7 +22,7 @@ const LoginForm = ({ onSubmit }) => {
         Sign in
       </Typography>
       <Form noValidate>
-        <TextField
+        {/* <TextField
           variant="outlined"
           margin="normal"
           required
@@ -45,7 +45,7 @@ const LoginForm = ({ onSubmit }) => {
           id="password"
           autoComplete="current-password"
           onChange={(e) => setPassword(e.target.value)}
-        />
+        /> */}
         <Button
           fullWidth
           variant="contained"
@@ -72,6 +72,7 @@ const Paper = styled(MuiPaper)`
 
 const Form = styled.form`
   width: 100%;
+  min-width: 400px;
 
   button {
     margin-top: 10px;
