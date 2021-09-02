@@ -13,17 +13,19 @@ import HomePage from "./components/pages/Home";
 import Landing from "./components/pages/Landing";
 import LoginPage from "./components/pages/Login";
 
+const drawerWidth = 240;
+
 function App() {
   return (
     <FullSpacedContainer>
       <Router>
-        <NavigationBar>
+        <NavigationBar title="HR App" drawerWidth={drawerWidth}>
           <NavigationItem private title="Home" path="/home" />
           <NavigationItem private title="Departments" path="/departments" />
           <NavigationItem private title="Employees" path="/employees" />
           <NavigationItem title="About" path="/about" />
         </NavigationBar>
-        <Page footerText={"App version: 0.0.1 - " + new Date().getFullYear()}>
+        <Page drawerWidth={drawerWidth}>
           <Switch>
             <Route exact path="/about">
               <About />

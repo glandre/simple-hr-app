@@ -1,12 +1,30 @@
 import React from "react";
+import { useEffect } from "react";
+import { useGetDepartments } from "../../contexts/api/get-departments";
 
 const DepartmentsPage = () => {
+  const { departments, loading, error, getDepartments } = useGetDepartments();
+
+  useEffect(() => {
+    getDepartments();
+  }, [getDepartments]);
+
   return (
     <div>
-      <h2>Departments Management</h2>
-      <div>
-        <p>Departments page.</p>
-      </div>
+      {loading ? <div>Departments are loading</div> : null}
+      {error ? <div>Error fetching departments: {error.message}</div> : null}
+      {departments?.length > 0 ? (
+        <div>
+          <h2>Departments:</h2>
+          <ul>
+            {departments.map((department) => (
+              <li key={department.id}>
+                {department.name}: {department.description}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </div>
   );
 };

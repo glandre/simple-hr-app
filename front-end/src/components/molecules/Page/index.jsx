@@ -2,19 +2,21 @@ import React from "react";
 import PropTypes from "prop-types";
 import Container from "../../atoms/Container";
 import SizedBox from "../../atoms/SizedBox";
-import Footer from "../Footer";
+import { useAuth } from "../../../contexts/auth";
+import SideBar from "../../organisms/SideBar";
 
-const Page = ({ children, footerText }) => {
+const Page = ({ children, drawerWidth }) => {
+  const auth = useAuth();
   return (
     <Container>
-      <SizedBox>{children}</SizedBox>
-      <Footer text={footerText} />
+      <SideBar width={drawerWidth} hidden={!auth.isLoggedIn} />
+      <SizedBox drawerWidth={drawerWidth}>{children}</SizedBox>
     </Container>
   );
 };
 
 Page.propTypes = {
-  footerText: PropTypes.string.isRequired,
+  drawerWidth: PropTypes.number.isRequired,
 };
 
 export default Page;
