@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DepartmentReportsController;
 use App\Http\Controllers\EmployeeController;
 
 /*
@@ -26,3 +27,5 @@ Route::apiResources([
 ]);
 
 Route::get('departments/{id}/employees', [DepartmentController::class, 'employees']);
+
+Route::get('reports/departments/highest-salaries', [DepartmentReportsController::class, 'highestSalaries']);

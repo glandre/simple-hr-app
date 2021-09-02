@@ -4,7 +4,8 @@ namespace App\Persistence;
 
 use App\Entities\Entity;
 
-interface Repository {
+interface Repository
+{
     public function create(Entity $entity): bool;
     public function retrieve($id): ?Entity;
     public function retrieveAll(): array;
