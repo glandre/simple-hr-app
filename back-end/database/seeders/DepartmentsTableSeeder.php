@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Entities\Department;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 use App\Persistence\DepartmentRepository;
+use App\Persistence\EmployeeRepository;
 
 class DepartmentsTableSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class DepartmentsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
 
         $fakeDepartments = [
@@ -48,21 +49,19 @@ class DepartmentsTableSeeder extends Seeder
             ]
         ];
 
-        $repository = new DepartmentRepository();
+        $departmentRepository = new DepartmentRepository();
+        $employeeRepository = new EmployeeRepository();
 
         // Let's truncate our existing records to start from scratch.
-        $repository->deleteAll();
+        $employeeRepository->deleteAll();
+        $departmentRepository->deleteAll();
 
         // And now, let's create a few articles in our database:
         foreach ($fakeDepartments as $department) {
             $entity = new Department();
             $entity->name = $department['name'];
             $entity->description = $department['description'];
-            $repository->create($entity);
-            // DB::statement(
-            //     'INSERT INTO `departments` (`name`, `description`, `created_at`, `updated_at`) VALUES(?, ?, now(), now())',
-            //     [$department['name'], $department['description'], ]
-            // );
+            $departmentRepository->create($entity);
         }
     }
 }

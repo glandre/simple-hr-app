@@ -44,6 +44,7 @@ function generateFakeEmployee(int $departmentId, Faker $faker): Employee {
     $employee->email = $email;
     $employee->firstName = $firstName;
     $employee->lastName = $lastName;
+    $employee->annualSalary = $faker->numberBetween(20000, 60000);
     $employee->departmentId = $departmentId;
 
     return $employee;

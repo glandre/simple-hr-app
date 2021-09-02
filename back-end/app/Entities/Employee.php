@@ -8,6 +8,7 @@ class Employee extends AbstractEntity implements Entity
     public $email = null;
     public $firstName = null;
     public $lastName = null;
+    public $annualSalary = null;
     public $departmentId = null;
     public $createdAt = null;
     public $updatedAt = null;
@@ -19,13 +20,14 @@ class Employee extends AbstractEntity implements Entity
 
     public function toArray(): array {
         return array(
-            'id' => $this->id,
-            'email' => $this->email,
-            'firstName' => $this->firstName,
-            'lastName' => $this->lastName,
-            'departmentId' => $this->departmentId,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'id' => $this->id ?? null,
+            'email' => $this->email ?? null,
+            'firstName' => $this->firstName ?? null,
+            'lastName' => $this->lastName ?? null,
+            'annualSalary' => $this->annualSalary ?? null,
+            'departmentId' => $this->departmentId ?? null,
+            'createdAt' => $this->createdAt ?? null,
+            'updatedAt' => $this->updatedAt ?? null,
         );
     }
 
@@ -49,6 +51,11 @@ class Employee extends AbstractEntity implements Entity
         if (isset($array['lastName']))
         {
             $this->lastName = $array['lastName'];
+        }
+        
+        if (isset($array['annualSalary']))
+        {
+            $this->annualSalary = $array['annualSalary'];
         }
         
         if (isset($array['departmentId']))
@@ -89,6 +96,11 @@ class Employee extends AbstractEntity implements Entity
         if (isset($object->lastName))
         {
             $this->lastName = $object->lastName;
+        }
+        
+        if (isset($object->annualSalary))
+        {
+            $this->annualSalary = $object->annualSalary;
         }
         
         if (isset($object->departmentId))

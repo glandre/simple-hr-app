@@ -44,7 +44,8 @@ class EmployeeRepository extends AbstractRepository implements Repository
             id,
             email,
             first_name as firstName,
-            last_name as lastName, 
+            last_name as lastName,
+            annual_salary as annualSalary,
             department_id as departmentId,
             created_at as createdAt,
             updated_at as updatedAt
@@ -62,15 +63,17 @@ class EmployeeRepository extends AbstractRepository implements Repository
             email,
             first_name,
             last_name,
+            annual_salary,
             department_id,
             updated_at,
             created_at
-        ) VALUES(?, ?, ?, ?, now(), now())";
+        ) VALUES(?, ?, ?, ?, ?, now(), now())";
         
         $this->queries->UPDATE = "UPDATE $TABLE_NAME SET 
             email = ?,
             first_name = ?,
             last_name = ?,
+            annual_salary = ?,
             department_id = ?,
             updated_at = now()
         WHERE id = ?";
@@ -86,7 +89,13 @@ class EmployeeRepository extends AbstractRepository implements Repository
 
     protected function getEditableFields($entity)
     {
-        return [$entity->email, $entity->firstName, $entity->lastName, $entity->departmentId];
+        return [
+            $entity->email,
+            $entity->firstName,
+            $entity->lastName,
+            $entity->annualSalary,
+            $entity->departmentId
+        ];
     }
 
     protected function buildEntities($queryResult)

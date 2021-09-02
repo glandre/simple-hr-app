@@ -17,11 +17,11 @@ class Department extends AbstractEntity implements Entity {
     public function toArray(): array
     {
         return array(
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'createdAt' => $this->createdAt,
-            'updatedAt' => $this->updatedAt,
+            'id' => $this->id ?? null,
+            'name' => $this->name ?? null,
+            'description' => $this->description ?? null,
+            'createdAt' => $this->createdAt ?? null,
+            'updatedAt' => $this->updatedAt ?? null,
         );
     }
 
