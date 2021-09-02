@@ -14,6 +14,7 @@ import { useGetReportDepartmentsWithOver } from "../../contexts/api/get-reports-
 import { useGetReportDepartmentHighestSalaries } from "../../contexts/api/get-reports-departments-highest-salaries";
 import ExpensiveDepartmentsReportTable from "../organisms/ExpensiveDepartmentsReportTable";
 import HighestSalariesReportTable from "../organisms/HighestSalariesReportTable";
+import { getErrorMessage } from "../../utils/error-handling";
 
 const numberOfEmployees = 2;
 const annualSalary = 50000;
@@ -69,7 +70,7 @@ const ReportsPage = () => {
   const error = departmentsWithOver.error || departmentHighestSalaries.error;
 
   const bodyContent = error
-    ? error.message
+    ? getErrorMessage(error)
     : explanation[report] || "Select a report to start.";
 
   return (

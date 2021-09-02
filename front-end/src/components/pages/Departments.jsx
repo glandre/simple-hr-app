@@ -9,12 +9,21 @@ import {
 import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { useDeleteDepartment } from "../../contexts/api/delete-department";
 import { useGetDepartments } from "../../contexts/api/get-departments";
 import { usePostDepartments } from "../../contexts/api/post-departments";
+import { usePutDepartment } from "../../contexts/api/put-department";
+import { getErrorMessage } from "../../utils/error-handling";
 import DepartmentsTable from "../organisms/DepartmentsTable";
 
+const Actions = {
+  CREATE: "create",
+  EDIT: "edit",
+};
+
 const DepartmentsPage = () => {
-  const [action, setAction] = useState("Create a department");
+  const [action, setAction] = useState(Actions.CREATE);
+  const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -32,22 +41,75 @@ const DepartmentsPage = () => {
     error: postDepartmentsError,
   } = usePostDepartments();
 
-  const submissionInProgress = postDepartmentsInProgress;
+  const {
+    putDepartments,
+    loading: putDepartmentsInProgress,
+    error: putDepartmentsError,
+  } = usePutDepartment();
+
+  const {
+    deleteDepartment,
+    loading: deleteDepartmentInProgress,
+    error: deleteDepartmentError,
+  } = useDeleteDepartment();
+
+  const submissionInProgress =
+    postDepartmentsInProgress ||
+    putDepartmentsInProgress ||
+    deleteDepartmentInProgress;
 
   useEffect(() => {
     if (!submissionInProgress) {
       getDepartments();
+      setAction(Actions.CREATE);
+      setId(null);
+      setName("");
+      setDescription("");
     }
   }, [getDepartments, submissionInProgress]);
 
-  const handleSubmit = () => {
-    postDepartments({ name, description });
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  const error = getDepartmentsError || postDepartmentsError;
+  const handleEdit = (row) => {
+    setAction("edit");
+    setId(row.id);
+    setName(row.name);
+    setDescription(row.description);
+    scrollToTop();
+  };
 
-  const loading = departmentsAreLoading || postDepartmentsInProgress;
-  const bodyContent = error ? error.message : "";
+  const handleDelete = (row) => {
+    deleteDepartment(row.id);
+    scrollToTop();
+  };
+
+  const handleSubmit = () => {
+    if (action === Actions.CREATE) {
+      postDepartments({ name, description });
+    } else if (action === Actions.EDIT) {
+      putDepartments(id, { name, description });
+    }
+  };
+
+  const error =
+    getDepartmentsError ||
+    postDepartmentsError ||
+    putDepartmentsError ||
+    deleteDepartmentError;
+
+  const loading =
+    departmentsAreLoading ||
+    postDepartmentsInProgress ||
+    putDepartmentsInProgress ||
+    deleteDepartmentInProgress;
+
+  const title = Actions.CREATE ? "Create a department" : `Edit ${name}`;
+  const bodyContent = error ? getErrorMessage(error) : "";
 
   return (
     <Container>
@@ -57,7 +119,7 @@ const DepartmentsPage = () => {
         </Typography>
         <Line />
         <Typography variant="h6" noWrap>
-          {action}
+          {title}
         </Typography>
         <Padding />
         <FormControl>
@@ -99,7 +161,13 @@ const DepartmentsPage = () => {
 
       {loading && <LinearProgress />}
 
-      {departmentsLoaded && <DepartmentsTable data={departments} />}
+      {departmentsLoaded && (
+        <DepartmentsTable
+          data={departments}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
     </Container>
   );
 };
