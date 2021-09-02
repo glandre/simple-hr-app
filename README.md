@@ -13,43 +13,6 @@ Here are the main features available in this application:
 
 ## Running the Application Locally
 
-Instructions to be added here.
-
-## Architecture
-
-This project uses Laravel in the back-end, and React in the front-end. Check the Architecture
-documentation for a detailed overview of the Software Architecture.
-
-## Software Development Process
-
-### Commits
-
-Commit messages are important. In this project, a simplified version of the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) method is followed. In summary:
-
-- A commit message should have a Subject and optionally a body.
-- A commit message Subject should be written in the imperative.
-- A commit message Subject should be prefixed with a semantic word that clarifies its intent.
-
-Semantic prefixes:
-
-- `feat`: introduces a new feature to the codebase.
-- `fix`: patches a bug in your codebase.
-- `refactor`: introduces a code change that neither fixes a bug nor adds a feature.
-- `docs`: updates the project documentation.
-- `chore`: introduces changes in the maintenance of the codebase (e.g., build and deploy scripts).
-
-### Versioning
-
-This project follows the [semantic versioning](https://semver.org/) approach.
-Given a version number MAJOR.MINOR.PATCH, increment the:
-
-MAJOR version when you make incompatible API changes,
-MINOR version when you add functionality in a backwards compatible manner, and
-PATCH version when you make backwards compatible bug fixes.
-Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
-
-## Server Setup (Local and Staging)
-
 The following steps were executed in the following:
 
 - **Local Development Environment**: Linux machine with **Pop!\_OS 21.04** installed;
@@ -73,7 +36,7 @@ mysql
 
 - In the MySQL console, setup the application database and database user:
 
-```
+```sql
 CREATE DATABASE simple_hr_app;
 CREATE USER 'simple_hr_app_user'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
 GRANT ALL ON simple_hr_app.* TO 'simple_hr_app_user'@'%';
@@ -158,7 +121,7 @@ v14.17.5
 7.21.1
 ```
 
-### NGINX (Staging-only)
+## Server Configuration (Staging environment)
 
 Front-end SPA address: http://hr.geraldolandre.com/
 Back-end API address: http://hr-api.geraldolandre.com/
@@ -313,6 +276,39 @@ sh scripts/start_tunnel.sh
 **Notice:** replace `geraldo@geraldolandre.com` with the intended SSH connection.
 
 After this, you should be able to connect to the staging database with `127.0.0.1:3306`, by using the MySQL IDE (e.g., DBeaver) and by setting up your `.env` accordingly.
+
+## Architecture
+
+This project uses Laravel in the back-end, and React in the front-end. Check the Architecture
+documentation for a detailed overview of the Software Architecture.
+
+## Software Development Process
+
+### Commits
+
+Commit messages are important. In this project, a simplified version of the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) method is followed. In summary:
+
+- A commit message should have a Subject and optionally a body.
+- A commit message Subject should be written in the imperative.
+- A commit message Subject should be prefixed with a semantic word that clarifies its intent.
+
+Semantic prefixes:
+
+- `feat`: introduces a new feature to the codebase.
+- `fix`: patches a bug in your codebase.
+- `refactor`: introduces a code change that neither fixes a bug nor adds a feature.
+- `docs`: updates the project documentation.
+- `chore`: introduces changes in the maintenance of the codebase (e.g., build and deploy scripts).
+
+### Versioning
+
+This project follows the [semantic versioning](https://semver.org/) approach.
+Given a version number MAJOR.MINOR.PATCH, increment the:
+
+MAJOR version when you make incompatible API changes,
+MINOR version when you add functionality in a backwards compatible manner, and
+PATCH version when you make backwards compatible bug fixes.
+Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
 ## REFERENCES
 
