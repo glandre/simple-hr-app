@@ -356,8 +356,12 @@ After this, you should be able to connect to the staging database with `127.0.0.
 
 ## Architecture
 
-This project uses Laravel in the back-end, and React in the front-end. Check the Architecture
-documentation for a detailed overview of the Software Architecture.
+This project uses Laravel in the back-end, and React in the front-end.
+
+The process of decision-making towards the back-end architecture is documented in an [ADR](https://github.com/glandre/simple-hr-app/blob/main/docs/adr/001-back-end-framework.md).
+
+Check the [Architecture documentation](https://github.com/glandre/simple-hr-app/blob/main/docs/ARCHITECTURE.md)
+for a detailed overview of the Software Architecture.
 
 ## Software Development Process
 
