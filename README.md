@@ -144,6 +144,60 @@ v14.17.5
 7.21.1
 ```
 
+### Running the application
+
+Once all steps above are executed, you are able to start the server by following the steps bellow:
+
+- **Install the back-end dependencies**
+
+```
+# enter the back-end folder
+cd ./back-end
+
+# install the dependencies
+composer install
+```
+
+- **Run the migrations and seeders**
+
+```
+# run the migrations
+php artisan migrate
+
+# optionally run the seeders
+# NOTICE: this command will reset the database
+# DO NOT run it if you don't want to lose your data
+php artisan db:seed
+```
+
+- **Start the server**
+
+```
+# still in the back-end folder, run the server
+php artisan serve
+```
+
+The back-end will run on `http://localhost:8000`
+
+- **Install the front-end application dependencies**
+
+```
+# go to the front-end directory
+cd ../front-end
+
+# install the dependencies
+npm install
+```
+
+- **Start the front-end application**
+
+```
+# run the application
+npm start
+```
+
+The front-end will run on `http://localhost:3000`
+
 ## Server Configuration (Staging environment)
 
 Front-end SPA address: http://hr.geraldolandre.com/
